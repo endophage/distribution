@@ -6,15 +6,15 @@ import (
 	storagedriver "github.com/docker/distribution/registry/storage/driver"
 )
 
-// StorageMiddlewareInitFunc is the type of a StorageMiddleware factory function and is
+// InitFunc is the type of a StorageMiddleware factory function and is
 // used to register the contsructor for different StorageMiddleware backends.
 type InitFunc func(storageDriver storagedriver.StorageDriver, options map[string]interface{}) (storagedriver.StorageDriver, error)
 
 var storageMiddlewares map[string]InitFunc
 
-// RegisterStorageMiddleware is used to register an StorageMiddlewareInitFunc for
+// Register is used to register an InitFunc for
 // a StorageMiddleware backend with the given name.
-func RegisterStorageMiddleware(name string, initFunc InitFunc) error {
+func Register(name string, initFunc InitFunc) error {
 	if storageMiddlewares == nil {
 		storageMiddlewares = make(map[string]InitFunc)
 	}
@@ -27,9 +27,8 @@ func RegisterStorageMiddleware(name string, initFunc InitFunc) error {
 	return nil
 }
 
-// GetStorageMiddleware constructs a StorageMiddleware
-// with the given options using the named backend.
-func GetStorageMiddleware(name string, options map[string]interface{}, storageDriver storagedriver.StorageDriver) (storagedriver.StorageDriver, error) {
+// Get constructs a StorageMiddleware with the given options using the named backend.
+func Get(name string, options map[string]interface{}, storageDriver storagedriver.StorageDriver) (storagedriver.StorageDriver, error) {
 	if storageMiddlewares != nil {
 		if initFunc, exists := storageMiddlewares[name]; exists {
 			return initFunc(storageDriver, options)

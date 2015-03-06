@@ -1,4 +1,4 @@
-// cloudfront middleware for storage libs
+// Package middleware for storage libs
 // N.B. currently only works with S3, not arbitrary sites
 //
 package middleware
@@ -115,5 +115,5 @@ func (lh *cloudFrontStorageMiddleware) URLFor(path string, options map[string]in
 
 // init registers the cloudfront layerHandler backend.
 func init() {
-	storagemiddleware.RegisterStorageMiddleware("cloudfront", storagemiddleware.InitFunc(newCloudFrontStorageMiddleware))
+	storagemiddleware.Register("cloudfront", storagemiddleware.InitFunc(newCloudFrontStorageMiddleware))
 }
