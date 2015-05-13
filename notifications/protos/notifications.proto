@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package notifications;
+
+service EventReceiver {
+	rpc Publish (Events) returns (Void) {}
+}
+
+message Events {
+	repeated Event Events = 1;
+}
+
+message Event {
+	string ID = 1;
+	int64 Timestamp = 2;
+	string Action = 3;
+	TargetMessage Target = 4;
+	RequestRecordMessage Request = 5;
+	ActorRecordMessage Actor = 6;
+	SourceRecordMessage Source = 7;
+}
+
+message TargetMessage {
+	DescriptorMessage Descriptor = 1;
+	string Repository = 2;
+	string URL = 3;
+}
+
+message DescriptorMessage {
+	string MediaType = 1;
+	int64 Length = 2;
+	string Digest = 3;
+}
+
+message ActorRecordMessage {
+	string Name = 1;
+}
+
+message RequestRecordMessage {
+	string ID = 1;
+	string Addr = 2;
+	string Host = 3;
+	string Method = 4;
+	string UserAgent = 5;
+}
+
+message SourceRecordMessage {
+	string Addr = 1;
+	string InstanceID = 2;
+}
+
+message Void {}
